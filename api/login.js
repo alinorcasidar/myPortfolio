@@ -16,26 +16,23 @@ export default async function handler(req, res) {
     await client.connect();
     const db = client.db("portfolio");
 
-    const admin = await db.collection("admin").findOne({});
+    // ✅ FIXED COLLECTION NAME
+    const admin = await db.collection("admin").findOne({ email: cleanEmail });
 
-    console.log("👉 INPUT EMAIL:", cleanEmail);
-    console.log("👉 INPUT PASSWORD:", cleanPassword);
-    console.log("👉 DB DATA:", admin);
+    console.log("INPUT:", cleanEmail, cleanPassword);
+    console.log("DB:", admin);
 
-    // TEMP: bypass email check
-    if (!admin) {
-      return res.json({ success: false, message: "No admin in DB" });
+    if (!admin || admin.password !== cleanPassword) {
+      return res.json({
+        success: false,
+        message: "Invalid credentials"
+      });
     }
 
-    if (admin.email !== cleanEmail) {
-      return res.json({ success: false, message: "Email not match" });
-    }
-
-    if (admin.password !== cleanPassword) {
-      return res.json({ success: false, message: "Password not match" });
-    }
-
-    return res.json({ success: true });
+    return res.json({
+      success: true,
+      message: "Login successful"
+    });
 
   } catch (error) {
     return res.status(500).json({
