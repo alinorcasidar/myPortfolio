@@ -1,48 +1,46 @@
-import { MongoClient } from 'mongodb';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { MongoClient } from "mongodb";
 
 const client = new MongoClient(process.env.MONGODB_URI);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method not allowed' });
-  }
-
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({ success: false, message: 'Email and password required' });
+    return res.status(405).json({ success: false });
   }
 
   try {
+    const { email, password } = req.body;
+
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
+
     await client.connect();
-    const db = client.db('portfolio');
-    // Use the correct collection name (adjust if needed)
-    const admin = await db.collection('admins').findOne({ email: email.trim() });
+    const db = client.db("portfolio");
 
+    const admin = await db.collection("admin").findOne({});
+
+    console.log("👉 INPUT EMAIL:", cleanEmail);
+    console.log("👉 INPUT PASSWORD:", cleanPassword);
+    console.log("👉 DB DATA:", admin);
+
+    // TEMP: bypass email check
     if (!admin) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.json({ success: false, message: "No admin in DB" });
     }
 
-    // Compare hashed password
-    const isValid = await bcrypt.compare(password, admin.password);
-    if (!isValid) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    if (admin.email !== cleanEmail) {
+      return res.json({ success: false, message: "Email not match" });
     }
 
-    // Create JWT token (expires in 1 day)
-    const token = jwt.sign(
-      { id: admin._id, email: admin.email },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    );
+    if (admin.password !== cleanPassword) {
+      return res.json({ success: false, message: "Password not match" });
+    }
 
-    res.status(200).json({ success: true, token });
+    return res.json({ success: true });
+
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ success: false, message: 'Internal server error' });
-  } finally {
-    await client.close();
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 }
