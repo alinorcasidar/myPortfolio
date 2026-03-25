@@ -4,7 +4,10 @@ const client = new MongoClient(process.env.MONGODB_URI);
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, message: "Method not allowed" });
+    return res.status(405).json({
+      success: false,
+      message: "Method not allowed"
+    });
   }
 
   try {
@@ -15,11 +18,19 @@ export default async function handler(req, res) {
 
     const { fullname, email, message } = req.body;
 
+    // 🚨 IMPORTANT: validate fields
+    if (!fullname || !email || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required"
+      });
+    }
+
     await collection.insertOne({
-      name: fullname, // ✅ fix here
+      name: fullname, // ✅ FIX HERE
       email,
       message,
-      createdAt: new Date(),
+      createdAt: new Date()
     });
 
     return res.status(200).json({
@@ -28,7 +39,8 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("SERVER ERROR:", error);
+
     return res.status(500).json({
       success: false,
       message: "Server error"
