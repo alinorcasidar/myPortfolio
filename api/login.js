@@ -5,7 +5,7 @@ const client = new MongoClient(process.env.MONGODB_URI);
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false });
-  }
+  } 
 
   try {
     const { email, password } = req.body;
@@ -16,8 +16,7 @@ export default async function handler(req, res) {
     await client.connect();
     const db = client.db("portfolio");
 
-    // ✅ FIXED COLLECTION NAME
-    const admin = await db.collection("admin").findOne({ email: cleanEmail });
+    const admin = await db.collection("admins").findOne({ email: cleanEmail });
 
     console.log("INPUT:", cleanEmail, cleanPassword);
     console.log("DB:", admin);
