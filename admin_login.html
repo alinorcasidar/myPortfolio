@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Admin Login | Alinor Casidar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #050810 0%, #0a0f1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .glass-card {
+            background: rgba(10, 15, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e293b;
+            backdrop-filter: blur(12px);
+            border-left: 4px solid #3b82f6;
+            padding: 12px 24px;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            z-index: 200;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            border-left-color: #10b981;
+        }
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast"></div>
+
+    <div class="glass-card rounded-2xl p-8 w-full max-w-md mx-4">
+        <div class="text-center mb-8">
+            <div class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-2">CASIDAR<span class="text-blue-500">.</span>DEV</div>
+            <h1 class="text-2xl font-bold text-white mt-2">Admin Login</h1>
+            <p class="text-gray-400 mt-1">Access message dashboard</p>
+        </div>
+
+        <form id="loginForm" class="space-y-5">
+            <div>
+                <label class="block text-gray-300 mb-2 text-sm font-medium">Email Address</label>
+                <input type="email" name="email" required
+                       class="w-full bg-white/5 border border-white/15 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500 transition"
+                       placeholder="admin@example.com">
+            </div>
+            <div>
+                <label class="block text-gray-300 mb-2 text-sm font-medium">Password</label>
+                <input type="password" name="password" required
+                       class="w-full bg-white/5 border border-white/15 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500 transition"
+                       placeholder="••••••••">
+            </div>
+            <button type="submit"
+                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 py-3 rounded-xl font-bold text-white hover:shadow-lg transition transform hover:scale-[1.02] active:scale-100">
+                <i class="fas fa-lock mr-2"></i> Login
+            </button>
+        </form>
+
+        <div class="mt-6 text-center text-sm text-gray-500">
+            <a href="/" class="hover:text-blue-400 transition"><i class="fas fa-arrow-left mr-1"></i> Back to Portfolio</a>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const toast = document.getElementById('toast');
+
+        function showToast(message, type = 'error') {
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = loginForm.querySelector('[name="email"]').value.trim();
+            const password = loginForm.querySelector('[name="password"]').value;
+
+            if (!email || !password) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Logging in...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.token) {
+                    // Store JWT token
+                    localStorage.setItem('adminToken', data.token);
+                    showToast('Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showToast(data.error || data.message || 'Invalid credentials', 'error');
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                showToast('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

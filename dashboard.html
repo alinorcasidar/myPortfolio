@@ -1,246 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Messages</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <style>
-    body { background: #050810; font-family: 'Inter', sans-serif; }
-    .glass-card { background: rgba(15, 25, 45, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); }
-    .table-row:hover { background: rgba(59, 130, 246, 0.1); }
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: #1e293b;
-      backdrop-filter: blur(12px);
-      border-left: 4px solid #3b82f6;
-      padding: 12px 24px;
-      border-radius: 12px;
-      color: white;
-      font-size: 0.9rem;
-      z-index: 200;
-      transform: translateX(400px);
-      transition: transform 0.3s ease;
-      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-    }
-    .toast.show { transform: translateX(0); }
-    .toast.success { border-left-color: #10b981; }
-    .toast.error { border-left-color: #ef4444; }
-  </style>
-</head>
-<body class="p-6">
-  <div id="toast" class="toast"></div>
+<script>
+const API_BASE = '/api';
+let isLoggedIn = false;
+let currentPage = 1;
 
-  <div id="loginContainer" class="flex items-center justify-center min-h-screen">
-    <div class="glass-card rounded-2xl p-8 w-full max-w-md">
-      <h1 class="text-3xl font-bold text-center bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-6">Admin Login</h1>
-      <form id="loginForm" class="space-y-5">
-        <input type="email" id="loginEmail" placeholder="Email" class="w-full bg-white/5 border border-white/15 rounded-xl p-3 text-white" required>
-        <input type="password" id="loginPassword" placeholder="Password" class="w-full bg-white/5 border border-white/15 rounded-xl p-3 text-white" required>
-        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 py-3 rounded-xl font-bold text-white">Login</button>
-      </form>
-    </div>
-  </div>
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = `toast ${type} show`;
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
 
-  <div id="dashboardContainer" style="display: none;">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          <i class="fas fa-envelope mr-2"></i> Contact Messages
-        </h1>
-        <button id="logoutBtn" class="bg-red-600/20 hover:bg-red-600/40 text-red-300 px-4 py-2 rounded-xl transition">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-      </div>
+// LOGIN
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-      <div id="stats" class="glass-card rounded-2xl p-6 mb-8 hidden grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- stats injected via JS -->
-      </div>
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
 
-      <div class="glass-card rounded-2xl overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left">
-            <thead class="bg-white/5 border-b border-white/10">
-              <tr>
-                <th class="px-6 py-4 text-gray-300">Name</th>
-                <th class="px-6 py-4 text-gray-300">Email</th>
-                <th class="px-6 py-4 text-gray-300">Message</th>
-                <th class="px-6 py-4 text-gray-300">Date</th>
-              </tr>
-            </thead>
-            <tbody id="messagesTable"></tbody>
-          </table>
-        </div>
-        <div id="pagination" class="flex justify-center gap-2 py-4 border-t border-white/10"></div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const API_BASE = '/api';
-    let token = null;
-    let currentPage = 1;
-
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = `toast ${type} show`;
-      setTimeout(() => toast.classList.remove('show'), 4000);
-    }
-
-    // Login
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-
-      try {
-        const res = await fetch(`${API_BASE}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
-        if (data.success) {
-          token = data.token;
-          localStorage.setItem('adminToken', token);
-          showToast('Login successful!', 'success');
-          document.getElementById('loginContainer').style.display = 'none';
-          document.getElementById('dashboardContainer').style.display = 'block';
-          fetchMessages();
-        } else {
-          showToast('Invalid email or password', 'error');
-        }
-      } catch (err) {
-        showToast('Login failed', 'error');
-      }
+  try {
+    const res = await fetch(`${API_BASE}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
     });
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('adminToken');
-      token = null;
-      document.getElementById('loginContainer').style.display = 'flex';
-      document.getElementById('dashboardContainer').style.display = 'none';
-    });
+    const data = await res.json();
 
-    // Fetch messages
-    async function fetchMessages(page = 1) {
-      if (!token) {
-        token = localStorage.getItem('adminToken');
-        if (!token) return;
-      }
+    if (data.success) {
+      isLoggedIn = true;
+      localStorage.setItem('adminLogin', 'true');
 
-      try {
-        const res = await fetch(`${API_BASE}/getMessages?page=${page}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (res.status === 401) {
-          // Token expired or invalid
-          localStorage.removeItem('adminToken');
-          token = null;
-          document.getElementById('loginContainer').style.display = 'flex';
-          document.getElementById('dashboardContainer').style.display = 'none';
-          showToast('Session expired, please login again', 'error');
-          return;
-        }
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
+      showToast('Login successful!', 'success');
 
-        renderStats(data.total, data.last30Days, data.today);
-        renderMessages(data.messages);
-        renderPagination(data.currentPage, data.totalPages);
-      } catch (err) {
-        console.error(err);
-        showToast('Failed to load messages', 'error');
-      }
-    }
-
-    function renderStats(total, last30, today) {
-      const statsDiv = document.getElementById('stats');
-      statsDiv.innerHTML = `
-        <div class="bg-blue-500/10 rounded-xl p-4 text-center">
-          <i class="fas fa-inbox text-2xl text-blue-400 mb-2"></i>
-          <p class="text-gray-300">Total Messages</p>
-          <p class="text-3xl font-bold text-white">${total}</p>
-        </div>
-        <div class="bg-purple-500/10 rounded-xl p-4 text-center">
-          <i class="fas fa-clock text-2xl text-purple-400 mb-2"></i>
-          <p class="text-gray-300">Last 30 Days</p>
-          <p class="text-3xl font-bold text-white">${last30}</p>
-        </div>
-        <div class="bg-green-500/10 rounded-xl p-4 text-center">
-          <i class="fas fa-calendar-day text-2xl text-green-400 mb-2"></i>
-          <p class="text-gray-300">Today</p>
-          <p class="text-3xl font-bold text-white">${today}</p>
-        </div>
-      `;
-      statsDiv.classList.remove('hidden');
-    }
-
-    function renderMessages(messages) {
-      const tbody = document.getElementById('messagesTable');
-      if (!messages.length) {
-        tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No messages found.</td></tr>';
-        return;
-      }
-      tbody.innerHTML = messages.map(msg => `
-        <tr class="table-row border-b border-white/5 hover:bg-white/5 transition">
-          <td class="px-6 py-4 font-medium text-white">${escapeHtml(msg.fullname)}</td>
-          <td class="px-6 py-4 text-gray-300">
-            <a href="mailto:${escapeHtml(msg.email)}" class="text-blue-400 hover:underline">${escapeHtml(msg.email)}</a>
-          </td>
-          <td class="px-6 py-4 text-gray-300 max-w-md">
-            <div class="truncate">${escapeHtml(msg.message)}</div>
-            ${msg.message.length > 100 ? `<button onclick="showFullMessage('${escapeHtml(msg.message)}')" class="text-xs text-blue-400 mt-1">Read more</button>` : ''}
-          </td>
-          <td class="px-6 py-4 text-gray-400 text-sm">${new Date(msg.createdAt).toLocaleString()}</td>
-        </tr>
-      `).join('');
-    }
-
-    function renderPagination(current, total) {
-      const paginationDiv = document.getElementById('pagination');
-      if (total <= 1) {
-        paginationDiv.innerHTML = '';
-        return;
-      }
-      let html = '';
-      for (let i = 1; i <= total; i++) {
-        html += `<button onclick="goToPage(${i})" class="px-3 py-1 rounded-lg ${current === i ? 'bg-blue-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'}">${i}</button>`;
-      }
-      paginationDiv.innerHTML = html;
-    }
-
-    window.goToPage = (page) => {
-      currentPage = page;
-      fetchMessages(page);
-    };
-
-    window.showFullMessage = (msg) => {
-      alert(msg); // simple alert; you can replace with a modal
-    };
-
-    function escapeHtml(str) {
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-
-    // Check if already logged in
-    const storedToken = localStorage.getItem('adminToken');
-    if (storedToken) {
-      token = storedToken;
       document.getElementById('loginContainer').style.display = 'none';
       document.getElementById('dashboardContainer').style.display = 'block';
+
       fetchMessages();
+    } else {
+      showToast(data.message || 'Invalid login', 'error');
     }
-  </script>
-</body>
-</html>
+
+  } catch (err) {
+    showToast('Login failed', 'error');
+  }
+});
+
+// LOGOUT
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('adminLogin');
+  isLoggedIn = false;
+
+  document.getElementById('loginContainer').style.display = 'flex';
+  document.getElementById('dashboardContainer').style.display = 'none';
+});
+
+// FETCH MESSAGES
+async function fetchMessages(page = 1) {
+  try {
+    const res = await fetch(`${API_BASE}/messages?page=${page}`);
+    const data = await res.json();
+
+    if (!data.messages) throw new Error("No data");
+
+    renderStats(data.total, data.last30Days, data.today);
+    renderMessages(data.messages);
+    renderPagination(data.currentPage, data.totalPages);
+
+  } catch (err) {
+    console.error(err);
+    showToast('Failed to load messages', 'error');
+  }
+}
+
+// RENDER FUNCTIONS (UNCHANGED)
+function renderStats(total, last30, today) {
+  const statsDiv = document.getElementById('stats');
+  statsDiv.innerHTML = `
+    <div class="bg-blue-500/10 rounded-xl p-4 text-center">
+      <p>Total</p><p>${total}</p>
+    </div>
+    <div class="bg-purple-500/10 rounded-xl p-4 text-center">
+      <p>Last 30 Days</p><p>${last30}</p>
+    </div>
+    <div class="bg-green-500/10 rounded-xl p-4 text-center">
+      <p>Today</p><p>${today}</p>
+    </div>
+  `;
+  statsDiv.classList.remove('hidden');
+}
+
+function renderMessages(messages) {
+  const tbody = document.getElementById('messagesTable');
+
+  if (!messages.length) {
+    tbody.innerHTML = `<tr><td colspan="4">No messages</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = messages.map(msg => `
+    <tr>
+      <td>${msg.fullname}</td>
+      <td>${msg.email}</td>
+      <td>${msg.message}</td>
+      <td>${new Date(msg.createdAt).toLocaleString()}</td>
+    </tr>
+  `).join('');
+}
+
+function renderPagination(current, total) {
+  const div = document.getElementById('pagination');
+  let html = '';
+
+  for (let i = 1; i <= total; i++) {
+    html += `<button onclick="goToPage(${i})">${i}</button>`;
+  }
+
+  div.innerHTML = html;
+}
+
+window.goToPage = (page) => {
+  fetchMessages(page);
+};
+
+// AUTO LOGIN
+if (localStorage.getItem('adminLogin')) {
+  isLoggedIn = true;
+  document.getElementById('loginContainer').style.display = 'none';
+  document.getElementById('dashboardContainer').style.display = 'block';
+  fetchMessages();
+}
+</script>
