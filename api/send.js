@@ -1,6 +1,18 @@
 import { MongoClient } from "mongodb";
 
-const client = new MongoClient(process.env.MONGODB_URI);
+let client;
+let clientPromise;
+
+if (!process.env.MONGODB_URI) {
+  throw new Error("Please add MONGODB_URI to environment variables");
+}
+
+// 🔥 reuse connection (important for Vercel)
+if (!global._mongoClientPromise) {
+  client = new MongoClient(process.env.MONGODB_URI);
+  global._mongoClientPromise = client.connect();
+}
+clientPromise = global._mongoClientPromise;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -11,14 +23,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    await client.connect();
-
+    const client = await clientPromise;
     const db = client.db("portfolio");
     const collection = db.collection("messages");
 
     const { fullname, email, message } = req.body;
 
-    // 🚨 IMPORTANT: validate fields
     if (!fullname || !email || !message) {
       return res.status(400).json({
         success: false,
@@ -27,7 +37,7 @@ export default async function handler(req, res) {
     }
 
     await collection.insertOne({
-      name: fullname, // ✅ FIX HERE
+      name: fullname,
       email,
       message,
       createdAt: new Date()
@@ -39,11 +49,11 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("SERVER ERROR:", error);
+    console.error("ERROR:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Server error"
+      message: error.message // 👈 show real error
     });
   }
 }
