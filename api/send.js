@@ -1,60 +1,63 @@
-import { MongoClient } from "mongodb";
+import { MongoClient } from 'mongodb';
+
+const uri = process.env.MONGODB_URI;
 
 let client;
 let clientPromise;
 
 if (!process.env.MONGODB_URI) {
-  throw new Error("❌ MONGODB_URI not found");
+    throw new Error('Please add MONGODB_URI to environment variables');
 }
 
-// 🔥 Reuse connection (important for Vercel)
 if (!global._mongoClientPromise) {
-  client = new MongoClient(process.env.MONGODB_URI);
-  global._mongoClientPromise = client.connect();
+    client = new MongoClient(uri);
+    global._mongoClientPromise = client.connect();
 }
 clientPromise = global._mongoClientPromise;
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({
-      success: false,
-      message: "Method not allowed"
-    });
-  }
 
-  try {
-    const client = await clientPromise;
-    const db = client.db("portfolio");
-    const collection = db.collection("messages");
-
-    const { fullname, email, message } = req.body;
-
-    // ✅ validation
-    if (!fullname || !email || !message) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required"
-      });
+    // ✅ Allow only POST
+    if (req.method !== 'POST') {
+        return res.status(405).json({
+            success: false,
+            message: 'Method not allowed'
+        });
     }
 
-    await collection.insertOne({
-      name: fullname,
-      email,
-      message,
-      createdAt: new Date()
-    });
+    try {
+        const { fullname, email, message } = req.body;
 
-    return res.status(200).json({
-      success: true,
-      message: "Message sent successfully!"
-    });
+        // ✅ Validate input
+        if (!fullname || !email || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'All fields are required'
+            });
+        }
 
-  } catch (error) {
-    console.error("FULL ERROR:", error);
+        const client = await clientPromise;
+        const db = client.db('portfolio');
 
-    return res.status(500).json({
-      success: false,
-      message: error.message   // 👈 shows real error
-    });
-  }
+        // ✅ Insert to MongoDB
+        await db.collection('messages').insertOne({
+            fullname,
+            email,
+            message,
+            createdAt: new Date()
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Message sent successfully!'
+        });
+
+    } catch (error) {
+        console.error('SERVER ERROR:', error);
+
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
 }
