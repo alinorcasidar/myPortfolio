@@ -4,10 +4,10 @@ let client;
 let clientPromise;
 
 if (!process.env.MONGODB_URI) {
-  throw new Error("Please add MONGODB_URI to environment variables");
+  throw new Error("❌ MONGODB_URI not found");
 }
 
-// 🔥 reuse connection (important for Vercel)
+// 🔥 Reuse connection (important for Vercel)
 if (!global._mongoClientPromise) {
   client = new MongoClient(process.env.MONGODB_URI);
   global._mongoClientPromise = client.connect();
@@ -29,6 +29,7 @@ export default async function handler(req, res) {
 
     const { fullname, email, message } = req.body;
 
+    // ✅ validation
     if (!fullname || !email || !message) {
       return res.status(400).json({
         success: false,
@@ -49,11 +50,11 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("ERROR:", error);
+    console.error("FULL ERROR:", error);
 
     return res.status(500).json({
       success: false,
-      message: error.message // 👈 show real error
+      message: error.message   // 👈 shows real error
     });
   }
 }

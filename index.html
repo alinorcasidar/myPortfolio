@@ -12,57 +12,45 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: #050810; color: #eef2ff; overflow-x: hidden; }
 
-        /* Animated Background Orbs */
         .orb { position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.2; z-index: -2; pointer-events: none; animation: floatOrb 18s infinite alternate ease-in-out; }
         @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); opacity: 0.1; } 100% { transform: translate(5%, 8%) scale(1.2); opacity: 0.25; } }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #0a0f1a; }
         ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
 
-        /* Glassmorphism Enhancements */
         .glass-card { background: rgba(15, 25, 45, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.2); transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
         .glass-card:hover { border-color: rgba(59, 130, 246, 0.6); transform: translateY(-6px); box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5); }
 
-        /* Floating Animation */
-        @keyframes floatProfile { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px); } }
         .float-animation { animation: floatProfile 5s infinite alternate ease-in-out; }
+        @keyframes floatProfile { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px); } }
 
-        /* Fade-up Reveal */
         .reveal { opacity: 0; transform: translateY(32px); transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Blinking Cursor for Typewriter */
         .typed-cursor { display: inline-block; width: 2px; height: 1.2em; background-color: #60a5fa; margin-left: 4px; animation: blink 0.8s infinite; vertical-align: middle; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Shimmer Effect on Images */
         .shimmer { position: relative; overflow: hidden; }
         .shimmer::after { content: ""; position: absolute; top: -50%; left: -60%; width: 200%; height: 200%; background: linear-gradient(115deg, rgba(255,255,255,0) 10%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 90%); transform: rotate(25deg); transition: transform 0.6s; }
         .shimmer:hover::after { transform: rotate(25deg) translate(20%, 20%); }
 
-        /* Gradient Border Animation */
-        @keyframes borderGlow { 0% { border-color: rgba(59,130,246,0.3); box-shadow: 0 0 0 0 rgba(59,130,246,0.2); } 50% { border-color: rgba(168,85,247,0.7); box-shadow: 0 0 20px 5px rgba(168,85,247,0.3); } 100% { border-color: rgba(59,130,246,0.3); box-shadow: 0 0 0 0 rgba(59,130,246,0.1); } }
         .animated-ring { animation: borderGlow 3s infinite alternate; }
+        @keyframes borderGlow { 0% { border-color: rgba(59,130,246,0.3); box-shadow: 0 0 0 0 rgba(59,130,246,0.2); } 50% { border-color: rgba(168,85,247,0.7); box-shadow: 0 0 20px 5px rgba(168,85,247,0.3); } 100% { border-color: rgba(59,130,246,0.3); box-shadow: 0 0 0 0 rgba(59,130,246,0.1); } }
 
-        /* Project Tab Active State */
         .tab-btn.active { background-color: rgba(59, 130, 246, 0.2); border-color: #3b82f6; color: #60a5fa; }
         .project-item { display: none; animation: fadeIn 0.5s ease; cursor: pointer; }
         .project-item.show { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Skills List */
         .skill-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; color: #d1d5db; font-size: 0.9rem; }
         .skill-list li::before { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: #10b981; }
 
-        /* Modal Animation */
         @keyframes modalFadeIn { from { opacity: 0; backdrop-filter: blur(0px); } to { opacity: 1; backdrop-filter: blur(16px); } }
         @keyframes modalSlideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-bg-anim { animation: modalFadeIn 0.3s ease forwards; }
         .modal-content-anim { animation: modalSlideUp 0.4s ease forwards; }
 
-        /* Toast Notification */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -79,15 +67,9 @@
             transition: transform 0.3s ease;
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
         }
-        .toast.show {
-            transform: translateX(0);
-        }
-        .toast.success {
-            border-left-color: #10b981;
-        }
-        .toast.error {
-            border-left-color: #ef4444;
-        }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-left-color: #10b981; }
+        .toast.error { border-left-color: #ef4444; }
     </style>
 </head>
 <body class="relative">
@@ -98,7 +80,6 @@
 
     <nav class="fixed w-full z-50 glass py-3 px-6 md:px-24 flex justify-between items-center backdrop-blur-xl bg-[#050810]/80 border-b border-white/5 transition-all duration-300" id="navbar">
         <div class="text-2xl md:text-3xl font-bold tracking-tighter bg-gradient-to-r from-white to-blue-300 bg-clip-text text-transparent">CASIDAR<span class="text-blue-500">.</span>DEV</div>
-        
         <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest">
             <a href="#about" class="hover:text-blue-400 transition-all duration-300 relative after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all hover:after:w-full">About</a>
             <a href="#skills" class="hover:text-blue-400 transition-all duration-300 relative after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all hover:after:w-full">Skills</a>
@@ -106,9 +87,7 @@
             <a href="#projects" class="hover:text-blue-400 transition-all duration-300 relative after:absolute after:bottom-[-6px] after:left-0 after:w-0 after:h-[2px] after:bg-blue-500 after:transition-all hover:after:w-full">Projects</a>
             <a href="#contact" class="hover:text-blue-400 transition-all duration-300 text-blue-400 border-b border-blue-400/50">Hire Me</a>
         </div>
-
         <button id="menuBtn" class="md:hidden text-white text-2xl focus:outline-none z-50"><i class="fas fa-bars"></i></button>
-
         <div id="mobileMenu" class="fixed top-0 left-0 w-full h-screen bg-black/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 transform translate-x-full transition-transform duration-400 md:hidden">
             <button id="closeMenu" class="absolute top-6 right-8 text-3xl text-white"><i class="fas fa-times"></i></button>
             <a href="#about" class="text-2xl font-semibold hover:text-blue-400 transition">About</a>
@@ -119,7 +98,6 @@
         </div>
     </nav>
 
-    <!-- Toast Container -->
     <div id="toast" class="toast"></div>
 
     <section class="min-h-screen flex flex-col justify-center px-6 md:px-24 pt-28 relative">
@@ -134,11 +112,9 @@
                     <span class="font-medium">✦ I'm a</span>
                     <span id="typedRole" class="text-blue-400 font-semibold text-xl min-w-[200px] border-r-2 border-blue-400 pr-1"></span>
                 </div>
-                
                 <p class="text-gray-400 text-lg mb-8 max-w-lg leading-relaxed">
                     I’m a Computer Engineering graduate from USTP with hands-on experience in web development and system design. I enjoy building user-centered solutions and continuously improving my skills through real-world projects.
                 </p>
-                
                 <div class="flex gap-4 flex-wrap">
                     <a href="#projects" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">View My Work <i class="fas fa-arrow-right ml-2"></i></a>
                     <a href="#contact" class="border border-gray-600 hover:border-blue-500 hover:bg-blue-500/10 px-8 py-4 rounded-xl font-semibold transition-all">Hire Me</a>
@@ -151,7 +127,6 @@
                     <span>Currently hiring? I am open to opportunities!</span>
                 </div>
             </div>
-            
             <div class="relative flex justify-center reveal" data-delay="0.2">
                 <div class="relative w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden border-4 animated-ring bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-1 float-animation" id="profileImage">
                     <div class="w-full h-full rounded-full overflow-hidden bg-[#0e1422] flex items-center justify-center">
@@ -172,19 +147,15 @@
         <div class="max-w-5xl mx-auto">
             <div class="reveal glass-card p-8 md:p-12 rounded-3xl">
                 <h2 class="text-3xl font-bold mb-6 text-white">About <span class="text-purple-400">Me</span></h2>
-                
-               <p class="text-gray-300 text-lg mb-6 leading-relaxed">
+                <p class="text-gray-300 text-lg mb-6 leading-relaxed">
                     I am a Computer Engineer with a strong passion for understanding how technology works and applying it to solve real-world problems. I have experience in programming, web development, and system design, with a growing focus on building user-centered and interactive digital solutions.
                 </p>
-
                 <p class="text-gray-300 text-lg mb-8 leading-relaxed">
                     I am particularly interested in developing systems that enhance learning and user experience, combining both technical functionality and visual design. Through continuous practice and hands-on projects, I strive to improve my skills and create solutions that are efficient, engaging, and data-driven.
                 </p>
-
                 <p class="text-gray-300 text-lg mb-8 leading-relaxed">
                     I am a dedicated and adaptable individual who is always eager to learn, explore new technologies, and take on new challenges.
                 </p>
-
                 <div class="mt-8 bg-[#0a0f1a] rounded-xl p-6 border border-gray-800">
                     <h3 class="text-xl font-semibold mb-4 text-gray-200">My Dual Passion</h3>
                     <div class="grid md:grid-cols-2 gap-4">
@@ -205,104 +176,34 @@
     <section id="skills" class="py-24 px-6 md:px-24">
         <div class="max-w-6xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold mb-14 text-center reveal">✦ My Skillset ✦</h2>
-            
-        <div class="mb-12 glass-card p-8 rounded-2xl reveal">
-            <h3 class="text-2xl font-bold mb-6 text-gray-200">Career Interests</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Instructional Design</span>
+            <div class="mb-12 glass-card p-8 rounded-2xl reveal">
+                <h3 class="text-2xl font-bold mb-6 text-gray-200">Career Interests</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Instructional Design</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">E-Learning Development</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Learning Management Systems (LMS)</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">UI/UX Design</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Digital Content Creation</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Data Analytics</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Web Development</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Full Stack Development</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Software Engineering</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Information System Analysis</span></div>
+                    <div class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500 text-xl"></i><span class="text-gray-300">Embedded Systems / IoT</span></div>
                 </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">E-Learning Development</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Learning Management Systems (LMS)</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">UI/UX Design</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Digital Content Creation</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Data Analytics</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Web Development</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Full Stack Development</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Software Engineering</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Information System Analysis</span>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-500 text-xl"></i> 
-                    <span class="text-gray-300">Embedded Systems / IoT</span>
-                </div>
-
             </div>
-        </div>
-
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="glass-card p-6 rounded-2xl reveal hover:border-blue-500/50 transition-colors">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-blue-400"><i class="fas fa-code"></i> Web & System Skills</h3>
-                    <ul class="skill-list">
-                        <li>Flutter (Mobile App Development)</li>
-                        <li>Front-end design (Responsive Websites)</li>
-                        <li>Back-end development (Full-stack)</li>
-                        <li>HTML / CSS / Tailwind</li>
-                        <li>JavaScript / PHP</li>
-                        <li>API integration & Database Management</li>
-                    </ul>
+                    <ul class="skill-list"><li>Flutter (Mobile App Development)</li><li>Front-end design (Responsive Websites)</li><li>Back-end development (Full-stack)</li><li>HTML / CSS / Tailwind</li><li>JavaScript / PHP</li><li>API integration & Database Management</li></ul>
                 </div>
-
                 <div class="glass-card p-6 rounded-2xl reveal hover:border-purple-500/50 transition-colors">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-purple-400"><i class="fas fa-server"></i> Hardware & IoT</h3>
-                    <ul class="skill-list">
-                        <li>Embedded Systems Freelancing</li>
-                        <li>Network troubleshooting & Config</li>
-                        <li>LAN & Printer repair</li>
-                        <li>Hardware troubleshooting</li>
-                        <li>Laptop/Desktop diagnostic & repair</li>
-                        <li>IoT Sensor Automation (e.g. LPG detectors)</li>
-                    </ul>
+                    <ul class="skill-list"><li>Embedded Systems Freelancing</li><li>Network troubleshooting & Config</li><li>LAN & Printer repair</li><li>Hardware troubleshooting</li><li>Laptop/Desktop diagnostic & repair</li><li>IoT Sensor Automation (e.g. LPG detectors)</li></ul>
                 </div>
-
                 <div class="glass-card p-6 rounded-2xl reveal hover:border-green-500/50 transition-colors">
                     <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-green-400"><i class="fas fa-brain"></i> AI & Soft Skills</h3>
-                    <ul class="skill-list">
-                        <li>Machine Learning (Computer Vision)</li>
-                        <li>Problem-solving & Critical thinking</li>
-                        <li>Quick Learner</li>
-                        <li>Teamwork and cooperation</li>
-                        <li>Willingness to learn and grow</li>
-                        <li>Handling pressure</li>
-                    </ul>
+                    <ul class="skill-list"><li>Machine Learning (Computer Vision)</li><li>Problem-solving & Critical thinking</li><li>Quick Learner</li><li>Teamwork and cooperation</li><li>Willingness to learn and grow</li><li>Handling pressure</li></ul>
                 </div>
             </div>
         </div>
@@ -313,43 +214,15 @@
             <div class="reveal">
                 <h2 class="text-3xl font-bold mb-10 text-blue-400 flex items-center gap-2"><i class="fas fa-briefcase"></i> IT & Development</h2>
                 <div class="border-l-2 border-blue-500/40 pl-8 space-y-12">
-                    <div class="relative group">
-                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-blue-500 shadow-lg group-hover:scale-125 transition"></div>
-                        <h3 class="text-xl font-bold">IT Intern | Developer</h3>
-                        <p class="text-sm text-gray-500 mb-2">DILG X (Department of the Interior and Local Government)</p>
-                        <p class="text-gray-400">
-                            My internship experience includes performing network troubleshooting and basic configuration, and LAN/printer repairs. During this internship, I significantly enhanced my Full-Stack Web Development skills and developed a fully interactive mobile app using Flutter.
-                        </p>
-                    </div>
-                    <div class="relative group">
-                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-purple-500 shadow-lg group-hover:scale-125 transition"></div>
-                        <h3 class="text-xl font-bold">Freelance Embedded & Web Dev</h3>
-                        <p class="text-sm text-gray-500 mb-2">Independent / Client-based</p>
-                        <p class="text-gray-400">
-Combining hardware and software to develop projects involving IoT embedded systems and full-stack web development, demonstrating my ability to build integrated and practical solutions.
-                    </p>
-                    </div>
+                    <div class="relative group"><div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-blue-500 shadow-lg group-hover:scale-125 transition"></div><h3 class="text-xl font-bold">IT Intern | Developer</h3><p class="text-sm text-gray-500 mb-2">DILG X (Department of the Interior and Local Government)</p><p class="text-gray-400">My internship experience includes performing network troubleshooting and basic configuration, and LAN/printer repairs. During this internship, I significantly enhanced my Full-Stack Web Development skills and developed a fully interactive mobile app using Flutter.</p></div>
+                    <div class="relative group"><div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-purple-500 shadow-lg group-hover:scale-125 transition"></div><h3 class="text-xl font-bold">Freelance Embedded & Web Dev</h3><p class="text-sm text-gray-500 mb-2">Independent / Client-based</p><p class="text-gray-400">Combining hardware and software to develop projects involving IoT embedded systems and full-stack web development, demonstrating my ability to build integrated and practical solutions.</p></div>
                 </div>
             </div>
             <div class="reveal">
                 <h2 class="text-3xl font-bold mb-10 text-green-400 flex items-center gap-2"><i class="fas fa-tools"></i> Technical Hardware</h2>
                 <div class="border-l-2 border-green-500/40 pl-8 space-y-12">
-                    <div class="relative">
-                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-green-500"></div>
-                        <h3 class="text-xl font-bold">Hardware Repair Technician</h3>
-                        <p class="text-sm text-gray-500 mb-2">6+ Years Experience</p>
-                        <p class="text-gray-400">
-                        I have a strong background as a technical specialist with hands-on experience in diagnosing and troubleshooting a wide range of mobile devices. I am highly confident in my ability to identify issues efficiently and provide effective solutions, demonstrating strong analytical and problem-solving skills.
-                        </p>
-                    </div>
-                    <div class="relative">
-                        <div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-emerald-500"></div>
-                        <h3 class="text-xl font-bold">Computer Engineering Graduate</h3>
-                        <p class="text-sm text-gray-500 mb-2">USTP</p>
-                        <p class="text-gray-400">
-                            Graduated with a deep understanding of computer architecture, programming logic, and systems integration.
-                        </p>
-                    </div>
+                    <div class="relative"><div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-green-500"></div><h3 class="text-xl font-bold">Hardware Repair Technician</h3><p class="text-sm text-gray-500 mb-2">6+ Years Experience</p><p class="text-gray-400">I have a strong background as a technical specialist with hands-on experience in diagnosing and troubleshooting a wide range of mobile devices. I am highly confident in my ability to identify issues efficiently and provide effective solutions, demonstrating strong analytical and problem-solving skills.</p></div>
+                    <div class="relative"><div class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-emerald-500"></div><h3 class="text-xl font-bold">Computer Engineering Graduate</h3><p class="text-sm text-gray-500 mb-2">USTP</p><p class="text-gray-400">Graduated with a deep understanding of computer architecture, programming logic, and systems integration.</p></div>
                 </div>
             </div>
         </div>
@@ -359,7 +232,6 @@ Combining hardware and software to develop projects involving IoT embedded syste
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center reveal">✦ 20+ Completed Projects ✦</h2>
             <p class="text-center text-gray-400 mb-10 reveal">Click on any project to read the description and view more pictures or videos.</p>
-            
             <div class="flex flex-wrap justify-center gap-4 mb-12 reveal">
                 <button class="tab-btn active px-6 py-2 rounded-full border border-gray-600 hover:border-blue-500 transition-colors text-sm font-semibold" onclick="filterProjects('all')">All Projects</button>
                 <button class="tab-btn px-6 py-2 rounded-full border border-gray-600 hover:border-blue-500 transition-colors text-sm font-semibold" onclick="filterProjects('web')">Web & App Dev</button>
@@ -369,174 +241,19 @@ Combining hardware and software to develop projects involving IoT embedded syste
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project cards (unchanged, but ensure they have correct classes) -->
-                <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer hover:shadow-blue-500/20" onclick="openProjectModal('marketing')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/market1.png" alt="Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-blue-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">A responsive web-based e-commerce platform designed for selling refurbished iPhones...</p>
-                        <span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Web Dev</span>
-                    </div>
-                </div>
-
-                <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('dental')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/dentist1.png" alt="Dental App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-blue-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Dental Clinic Web App</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">Upcoming project: A full-stack web application designed for managing...</p>
-                        <span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Web App</span>
-                    </div>
-                </div>
-
-                <div class="project-item web hardware show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('dilgx')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/flutter6.jpg" alt="Flutter App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-blue-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">DILG X Interactive Information System</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">An interactive mobile application developed using Flutter during my OJT...</p>
-                        <span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Flutter Mobile</span>
-                    </div>
-                </div>
-
-                <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('finance')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
-                        <div class="text-center">
-                            <i class="fas fa-lock text-4xl text-gray-500 mb-2 block"></i>
-                            <p class="text-gray-400 text-sm">Private Project</p>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Financing Application <span class="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full ml-2">Private</span></h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">A comprehensive digital solution for managing financing operations (confidential).</p>
-                        <span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Full Stack</span>
-                    </div>
-                </div>
-
-                <div class="project-item iot show group glass-card rounded-2xl overflow-hidden shimmer border-purple-500/20" onclick="openProjectModal('lpg')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/gas1.jpg" alt="LPG Auto" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-purple-300">IoT-Based Smart LPG Gas Leakage Detection and Automatic Shutoff System</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">An IoT-based safety system designed to detect LPG gas leaks...</p>
-                        <span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">Embedded IoT</span>
-                    </div>
-                </div>
-
-                <div class="project-item iot show group glass-card rounded-2xl overflow-hidden shimmer border-purple-500/20" onclick="openProjectModal('irrigation')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/water2.jpg" alt="Irrigation" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-purple-300">Smart Water Irrigation</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">An automated irrigation system designed to help farmers optimize water...</p>
-                        <span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">IoT Hardware</span>
-                    </div>
-                </div>
-
-                <div class="project-item iot web show group glass-card rounded-2xl overflow-hidden shimmer border-purple-500/20" onclick="openProjectModal('flood')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/flood1.png" alt="Water Level" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-purple-300">Web-Integrated Flood Monitor</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">A water level detector connected to a website that can automatically...</p>
-                        <span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">IoT + Web</span>
-                    </div>
-                </div>
-
-                <div class="project-item ai show group glass-card rounded-2xl overflow-hidden shimmer border-green-500/20" onclick="openProjectModal('durian')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/durian2.png" alt="Durian AI" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-green-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-green-400">Machine Learning-Based Durian Ripeness Classification Using Computer Vision</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">An AI-powered computer vision system designed to accurately classify durian...</p>
-                        <span class="text-xs border border-green-500/40 px-2 py-1 rounded text-green-300">AI / ML</span>
-                    </div>
-                </div>
-
-                <div class="project-item ai show group glass-card rounded-2xl overflow-hidden shimmer border-green-500/20" onclick="openProjectModal('braille')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/braille1.jpg" alt="Braille" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-green-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-green-400">AI-Based Braille Recognition and Voice-Enabled Translator System</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">A detector built to help completely blind individuals by recognizing...</p>
-                        <span class="text-xs border border-green-500/40 px-2 py-1 rounded text-green-300">AI Vision</span>
-                    </div>
-                </div>
-
-                <div class="project-item iot show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('tollgate')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/toll11.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Tollgate Prototype">
-                        <div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-purple-300">Automatic Tollgate System (RFID + Cash Lane)</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">Raspberry Pi based dual‑lane automated toll collection with RFID, servo barrier, LCD feedback & Firebase cloud sync.</p>
-                        <span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">IoT + Web</span>
-                    </div>
-                </div>
-
-                <div class="project-item hardware show group glass-card rounded-2xl overflow-hidden shimmer border-orange-500/20" onclick="openProjectModal('intern')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/dilg8.jpg" alt="IT Intern at DILG X" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-orange-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-orange-400">IT Intern – DILG X</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">Full‑stack development, network troubleshooting, Flutter app, and system support.</p>
-                        <span class="text-xs border border-orange-500/40 px-2 py-1 rounded text-orange-300">Internship</span>
-                    </div>
-                </div>
-
-                <div class="project-item hardware show group glass-card rounded-2xl overflow-hidden shimmer border-orange-500/20" onclick="openProjectModal('hardwarepics')">
-                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
-                        <img src="images/repair1.jpg" alt="Hardware Repair" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-orange-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                            <span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2 text-orange-400">Hardware Technician</h3>
-                        <p class="text-gray-400 text-sm mb-4 truncate">Gallery of my 3+ years experience as a technician. Includes complex...</p>
-                        <span class="text-xs border border-orange-500/40 px-2 py-1 rounded text-orange-300">Hardware Tech</span>
-                    </div>
-                </div>
+                <!-- Project cards – same as before, kept for brevity -->
+                <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer hover:shadow-blue-500/20" onclick="openProjectModal('marketing')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/market1.png" alt="Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-blue-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2">Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering</h3><p class="text-gray-400 text-sm mb-4 truncate">A responsive web-based e-commerce platform designed for selling refurbished iPhones...</p><span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Web Dev</span></div></div>
+                <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('dental')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/dentist1.png" alt="Dental App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-blue-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2">Dental Clinic Web App</h3><p class="text-gray-400 text-sm mb-4 truncate">Upcoming project: A full-stack web application designed for managing...</p><span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Web App</span></div></div>
+                <div class="project-item web hardware show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('dilgx')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/flutter6.jpg" alt="Flutter App" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-blue-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2">DILG X Interactive Information System</h3><p class="text-gray-400 text-sm mb-4 truncate">An interactive mobile application developed using Flutter during my OJT...</p><span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Flutter Mobile</span></div></div>
+                <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('finance')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800"><div class="text-center"><i class="fas fa-lock text-4xl text-gray-500 mb-2 block"></i><p class="text-gray-400 text-sm">Private Project</p></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2">Financing Application <span class="text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full ml-2">Private</span></h3><p class="text-gray-400 text-sm mb-4 truncate">A comprehensive digital solution for managing financing operations (confidential).</p><span class="text-xs border border-blue-500/40 px-2 py-1 rounded text-blue-300">Full Stack</span></div></div>
+                <div class="project-item iot show group glass-card rounded-2xl overflow-hidden shimmer border-purple-500/20" onclick="openProjectModal('lpg')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/gas1.jpg" alt="LPG Auto" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-purple-300">IoT-Based Smart LPG Gas Leakage Detection and Automatic Shutoff System</h3><p class="text-gray-400 text-sm mb-4 truncate">An IoT-based safety system designed to detect LPG gas leaks...</p><span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">Embedded IoT</span></div></div>
+                <div class="project-item iot show group glass-card rounded-2xl overflow-hidden shimmer border-purple-500/20" onclick="openProjectModal('irrigation')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/water2.jpg" alt="Irrigation" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-purple-300">Smart Water Irrigation</h3><p class="text-gray-400 text-sm mb-4 truncate">An automated irrigation system designed to help farmers optimize water...</p><span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">IoT Hardware</span></div></div>
+                <div class="project-item iot web show group glass-card rounded-2xl overflow-hidden shimmer border-purple-500/20" onclick="openProjectModal('flood')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/flood1.png" alt="Water Level" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-purple-300">Web-Integrated Flood Monitor</h3><p class="text-gray-400 text-sm mb-4 truncate">A water level detector connected to a website that can automatically...</p><span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">IoT + Web</span></div></div>
+                <div class="project-item ai show group glass-card rounded-2xl overflow-hidden shimmer border-green-500/20" onclick="openProjectModal('durian')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/durian2.png" alt="Durian AI" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-green-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-green-400">Machine Learning-Based Durian Ripeness Classification Using Computer Vision</h3><p class="text-gray-400 text-sm mb-4 truncate">An AI-powered computer vision system designed to accurately classify durian...</p><span class="text-xs border border-green-500/40 px-2 py-1 rounded text-green-300">AI / ML</span></div></div>
+                <div class="project-item ai show group glass-card rounded-2xl overflow-hidden shimmer border-green-500/20" onclick="openProjectModal('braille')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/braille1.jpg" alt="Braille" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-green-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-green-400">AI-Based Braille Recognition and Voice-Enabled Translator System</h3><p class="text-gray-400 text-sm mb-4 truncate">A detector built to help completely blind individuals by recognizing...</p><span class="text-xs border border-green-500/40 px-2 py-1 rounded text-green-300">AI Vision</span></div></div>
+                <div class="project-item iot show group glass-card rounded-2xl overflow-hidden shimmer" onclick="openProjectModal('tollgate')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/toll11.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Tollgate Prototype"><div class="absolute inset-0 bg-purple-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-purple-300">Automatic Tollgate System (RFID + Cash Lane)</h3><p class="text-gray-400 text-sm mb-4 truncate">Raspberry Pi based dual‑lane automated toll collection with RFID, servo barrier, LCD feedback & Firebase cloud sync.</p><span class="text-xs border border-purple-500/40 px-2 py-1 rounded text-purple-300">IoT + Web</span></div></div>
+                <div class="project-item hardware show group glass-card rounded-2xl overflow-hidden shimmer border-orange-500/20" onclick="openProjectModal('intern')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/dilg8.jpg" alt="IT Intern at DILG X" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-orange-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-orange-400">IT Intern – DILG X</h3><p class="text-gray-400 text-sm mb-4 truncate">Full‑stack development, network troubleshooting, Flutter app, and system support.</p><span class="text-xs border border-orange-500/40 px-2 py-1 rounded text-orange-300">Internship</span></div></div>
+                <div class="project-item hardware show group glass-card rounded-2xl overflow-hidden shimmer border-orange-500/20" onclick="openProjectModal('hardwarepics')"><div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center"><img src="images/repair1.jpg" alt="Hardware Repair" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-orange-900/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white font-bold"><i class="fas fa-eye mr-2"></i> Click to View More</span></div></div><div class="p-6"><h3 class="text-xl font-bold mb-2 text-orange-400">Hardware Technician</h3><p class="text-gray-400 text-sm mb-4 truncate">Gallery of my 3+ years experience as a technician. Includes complex...</p><span class="text-xs border border-orange-500/40 px-2 py-1 rounded text-orange-300">Hardware Tech</span></div></div>
             </div>
         </div>
     </section>
@@ -546,21 +263,11 @@ Combining hardware and software to develop projects involving IoT embedded syste
             <div class="grid md:grid-cols-2 gap-12">
                 <div>
                     <h2 class="text-4xl font-bold mb-6">Let's <span class="text-blue-400">work</span> together!</h2>
-                        <p class="text-gray-400 text-md mb-6 max-w-md">
-                            Open to opportunities where I can apply my skills in web development, system design, and building practical technology solutions.
-                        </p>                    <div class="space-y-5">
-                        <div class="flex items-center gap-4 group">
-                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20 transition"><i class="fas fa-envelope"></i></div>
-                            <span>casidar.alinor1017@gmail.com</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fas fa-location-dot"></i></div>
-                            <span>Cagayan de Oro, Philippines</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fas fa-phone"></i></div>
-                            <span>+63 985 241 5204</span>
-                        </div>
+                    <p class="text-gray-400 text-md mb-6 max-w-md">Open to opportunities where I can apply my skills in web development, system design, and building practical technology solutions.</p>
+                    <div class="space-y-5">
+                        <div class="flex items-center gap-4 group"><div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20 transition"><i class="fas fa-envelope"></i></div><span>casidar.alinor1017@gmail.com</span></div>
+                        <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fas fa-location-dot"></i></div><span>Cagayan de Oro, Philippines</span></div>
+                        <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fas fa-phone"></i></div><span>+63 985 241 5204</span></div>
                     </div>
                 </div>
                 <form id="contactForm" class="space-y-5">
@@ -583,28 +290,17 @@ Combining hardware and software to develop projects involving IoT embedded syste
     </footer>
 
     <div id="projectModal" class="fixed inset-0 z-[100] hidden bg-[#050810]/95 backdrop-blur-xl overflow-y-auto w-full h-full">
-        <button onclick="closeProjectModal()" class="fixed top-6 right-8 text-white hover:text-red-400 text-4xl z-[110] transition-colors">
-            <i class="fas fa-times"></i>
-        </button>
-
+        <button onclick="closeProjectModal()" class="fixed top-6 right-8 text-white hover:text-red-400 text-4xl z-[110] transition-colors"><i class="fas fa-times"></i></button>
         <div class="min-h-screen px-6 py-20 flex flex-col items-center">
             <div id="modalContent" class="max-w-5xl w-full bg-[#0a0f1a] border border-gray-800 p-8 md:p-12 rounded-3xl shadow-2xl">
-                <div class="mb-8">
-                    <span id="modalTag" class="text-sm border border-blue-500/40 px-3 py-1 rounded-full text-blue-300 font-semibold mb-4 inline-block">Category</span>
-                    <h2 id="modalTitle" class="text-3xl md:text-5xl font-bold text-white mt-2 mb-6">Project Title</h2>
-                    <p id="modalDescription" class="text-gray-300 text-lg leading-relaxed">Detailed description goes here.</p>
-                </div>
-
-                <div class="border-t border-gray-800 pt-8 mt-8">
-                    <h3 class="text-xl font-bold text-gray-200 mb-6"><i class="fas fa-images text-blue-500"></i> Project Gallery & Demo</h3>
-                    <div id="modalGallery" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-                </div>
+                <div class="mb-8"><span id="modalTag" class="text-sm border border-blue-500/40 px-3 py-1 rounded-full text-blue-300 font-semibold mb-4 inline-block">Category</span><h2 id="modalTitle" class="text-3xl md:text-5xl font-bold text-white mt-2 mb-6">Project Title</h2><p id="modalDescription" class="text-gray-300 text-lg leading-relaxed">Detailed description goes here.</p></div>
+                <div class="border-t border-gray-800 pt-8 mt-8"><h3 class="text-xl font-bold text-gray-200 mb-6"><i class="fas fa-images text-blue-500"></i> Project Gallery & Demo</h3><div id="modalGallery" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div></div>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. TYPEWRITER EFFECT
+        // ==================== TYPEWRITER EFFECT ====================
         const roles = ["Computer Engineer", "Junior Web Developer", "IoT Embedded Freelancer", "Hardware Technician"];
         let roleIndex = 0, charIndex = 0;
         const typedSpan = document.getElementById("typedRole");
@@ -629,27 +325,23 @@ Combining hardware and software to develop projects involving IoT embedded syste
         }
         typeWriter();
 
-        // 2. PROJECT FILTERING
+        // ==================== PROJECT FILTERING ====================
         function filterProjects(category) {
             const btns = document.querySelectorAll('.tab-btn');
             btns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
             const items = document.querySelectorAll('.project-item');
             items.forEach(item => {
                 if (category === 'all') {
                     item.classList.add('show');
                 } else {
-                    if (item.classList.contains(category)) {
-                        item.classList.add('show');
-                    } else {
-                        item.classList.remove('show');
-                    }
+                    if (item.classList.contains(category)) item.classList.add('show');
+                    else item.classList.remove('show');
                 }
             });
         }
 
-        // 3. PROJECT MODAL DATA & LOGIC (unchanged but kept)
+        // ==================== PROJECT MODAL DATA ====================
         const projectData = {
             'marketing': {
                 title: 'Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering',
@@ -721,24 +413,22 @@ Combining hardware and software to develop projects involving IoT embedded syste
                 While performing these responsibilities, I also contributed to the development of a mobile application called the DILG Region X Citizen Charter. This application was designed to provide users with easy access to essential information such as citizen services, job opportunities, bidding opportunities, transparency reports, and other relevant resources. It was developed as a user-friendly platform to ensure that visitors could conveniently access all necessary information in one place.
 
                 In addition, I further enhanced my skills in web development by working on website-based solutions, improving both my front-end and back-end development capabilities. This experience allowed me to balance technical support tasks with system development, strengthening my ability to adapt and perform effectively in a dynamic IT environment.`,
-                
                 images: ['images/dilg1.jpg','images/dilg2.jpg','images/dilg3.jpg','images/dilg4.jpg','images/dilg5.jpg','images/dilg6.jpg','images/dilg7.jpg','images/dilg8.jpg','images/dilg9.jpg','images/dilg10.jpg','images/dilg11.jpg','images/dilg12.jpg','images/dilg13.jpg','images/dilg14.jpg','images/dilg15.jpg','images/dilg17.jpg','images/dilg19.jpg','images/dilg20.jpg','images/dilg21.jpg','images/dilg22.jpg','images/dilg23.jpg','images/dilg24.jpg','images/dilg25.jpg','images/dilg26.jpg','images/dilg27.jpg','images/dilg28.jpg','images/dilg29.jpg','images/dilg30.jpg','images/dilg31.jpg','images/dilg32.jpg','images/dilg33.jpg','images/dilg34.jpg','images/dilg35.jpg','images/dilg36.jpg','images/dilg38.jpg','images/dilg39.jpg','images/dilg40.jpg','images/dilg41.jpg','images/dilg42.jpg','images/dilg43.jpg','images/dilg44.jpg','images/dilg45.jpg','images/dilg46.jpg','images/dilg47.jpg','images/dilg48.jpg']
             },
             'hardwarepics': {
-            title: 'Hardware Technician',
-            tag: 'Hardware Tech | Electronics & Troubleshooting',
-            desc: `I have over six years of experience as a hardware technician, specializing in diagnosing and troubleshooting a wide range of mobile devices and electronic systems. My interest in technology was influenced by my father, who was also a technician, inspiring me to pursue this field from an early age.
+                title: 'Hardware Technician',
+                tag: 'Hardware Tech | Electronics & Troubleshooting',
+                desc: `I have over six years of experience as a hardware technician, specializing in diagnosing and troubleshooting a wide range of mobile devices and electronic systems. My interest in technology was influenced by my father, who was also a technician, inspiring me to pursue this field from an early age.
 
-            I am passionate about continuous learning and have developed my skills through hands-on experience, self-study, and overcoming challenges independently. I enjoy coding, programming, and exploring new technologies, particularly in system development and problem-solving.
+                I am passionate about continuous learning and have developed my skills through hands-on experience, self-study, and overcoming challenges independently. I enjoy coding, programming, and exploring new technologies, particularly in system development and problem-solving.
 
-            I have extensive experience in repairing computers and laptops, performing system reformatting, hardware diagnostics, motherboard-level troubleshooting, and handling complex mobile device repairs. I am highly confident in identifying issues efficiently and providing effective solutions.
+                I have extensive experience in repairing computers and laptops, performing system reformatting, hardware diagnostics, motherboard-level troubleshooting, and handling complex mobile device repairs. I am highly confident in identifying issues efficiently and providing effective solutions.
 
-            I also enjoy building systems that enable hardware to be controlled through applications, websites, or software platforms, combining my expertise in both hardware and software development.
+                I also enjoy building systems that enable hardware to be controlled through applications, websites, or software platforms, combining my expertise in both hardware and software development.
 
-            Currently, I am expanding my knowledge in artificial intelligence with the goal of applying it to real-world problems. I am highly motivated, adaptable, and genuinely passionate about working in the field of technology.`,
-            
-            images: ['images/repair1.jpg','images/repair2.jpg','images/repair3.jpg','images/repair4.jpg','images/repair5.jpg','images/repair6.jpg','images/repair7.jpg','images/repair8.jpg','images/repair9.jpg','images/repair10.jpg','images/repair11.jpg','images/repair12.jpg','images/repair13.jpg','images/repair14.jpg','images/repair15.jpg','images/repair16.jpg','images/repair17.jpg','images/repair18.jpg','images/repair19.jpg','images/repair20.jpg','images/repair21.jpg','images/repair22.jpg','images/repair23.jpg','images/repair24.jpg','images/repair25.jpg','images/repair26.jpg','images/repair27.jpg','images/repair28.jpg','images/repair29.jpg','images/repair30.jpg','images/repair31.jpg']
-        }
+                Currently, I am expanding my knowledge in artificial intelligence with the goal of applying it to real-world problems. I am highly motivated, adaptable, and genuinely passionate about working in the field of technology.`,
+                images: ['images/repair1.jpg','images/repair2.jpg','images/repair3.jpg','images/repair4.jpg','images/repair5.jpg','images/repair6.jpg','images/repair7.jpg','images/repair8.jpg','images/repair9.jpg','images/repair10.jpg','images/repair11.jpg','images/repair12.jpg','images/repair13.jpg','images/repair14.jpg','images/repair15.jpg','images/repair16.jpg','images/repair17.jpg','images/repair18.jpg','images/repair19.jpg','images/repair20.jpg','images/repair21.jpg','images/repair22.jpg','images/repair23.jpg','images/repair24.jpg','images/repair25.jpg','images/repair26.jpg','images/repair27.jpg','images/repair28.jpg','images/repair29.jpg','images/repair30.jpg','images/repair31.jpg']
+            }
         };
 
         const projectModal = document.getElementById('projectModal');
@@ -751,31 +441,18 @@ Combining hardware and software to develop projects involving IoT embedded syste
         function openProjectModal(projectId) {
             const data = projectData[projectId];
             if (!data) return;
-
             modalTitle.innerText = data.title;
             modalTag.innerText = data.tag;
             modalDescription.innerText = data.desc;
             modalGallery.innerHTML = '';
-
             if (data.videos && data.videos.length > 0) {
                 data.videos.forEach(vidSrc => {
-                    modalGallery.innerHTML += `
-                        <div class="rounded-xl overflow-hidden border border-gray-800 shadow-lg bg-black flex justify-center items-center">
-                            <video controls playsinline class="w-full h-auto max-h-[500px] object-contain">
-                                <source src="${vidSrc}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    `;
+                    modalGallery.innerHTML += `<div class="rounded-xl overflow-hidden border border-gray-800 shadow-lg bg-black flex justify-center items-center"><video controls playsinline class="w-full h-auto max-h-[500px] object-contain"><source src="${vidSrc}" type="video/mp4">Your browser does not support the video tag.</video></div>`;
                 });
             }
             if (data.images && data.images.length > 0) {
                 data.images.forEach(imgSrc => {
-                    modalGallery.innerHTML += `
-                        <div class="rounded-xl overflow-hidden border border-gray-800 shadow-lg">
-                            <img src="${imgSrc}" alt="${data.title}" class="w-full h-auto object-cover max-h-[500px] hover:scale-105 transition-transform duration-500">
-                        </div>
-                    `;
+                    modalGallery.innerHTML += `<div class="rounded-xl overflow-hidden border border-gray-800 shadow-lg"><img src="${imgSrc}" alt="${data.title}" class="w-full h-auto object-cover max-h-[500px] hover:scale-105 transition-transform duration-500"></div>`;
                 });
             }
             projectModal.classList.remove('hidden');
@@ -792,21 +469,16 @@ Combining hardware and software to develop projects involving IoT embedded syste
             const videos = modalGallery.querySelectorAll('video');
             videos.forEach(video => video.pause());
         }
+        projectModal.addEventListener('click', e => { if (e.target === projectModal) closeProjectModal(); });
 
-        projectModal.addEventListener('click', function(e) {
-            if (e.target === projectModal) closeProjectModal();
-        });
-
-        // 4. SCROLL REVEAL
+        // ==================== SCROLL REVEAL ====================
         const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
         reveals.forEach(el => observer.observe(el));
 
-        // 5. MOBILE MENU
+        // ==================== MOBILE MENU ====================
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         const closeMenu = document.getElementById('closeMenu');
@@ -816,7 +488,7 @@ Combining hardware and software to develop projects involving IoT embedded syste
         if (closeMenu) closeMenu.addEventListener('click', () => toggleMenu(false));
         mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
 
-        // 6. SMOOTH SCROLL
+        // ==================== SMOOTH SCROLL ====================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const targetId = this.getAttribute('href');
@@ -829,84 +501,68 @@ Combining hardware and software to develop projects involving IoT embedded syste
             });
         });
 
-        // 7. NAVBAR STYLE ON SCROLL
+        // ==================== NAVBAR STYLE ON SCROLL ====================
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) nav.classList.add('bg-[#050810]/95', 'backdrop-blur-xl', 'shadow-lg');
             else nav.classList.remove('bg-[#050810]/95', 'shadow-lg');
         });
 
-        // 8. CONTACT FORM AJAX SUBMISSION
+        // ==================== CONTACT FORM (relative API URL) ====================
         const contactForm = document.getElementById('contactForm');
         const toast = document.getElementById('toast');
 
         function showToast(message, type = 'success') {
             toast.textContent = message;
             toast.className = `toast ${type} show`;
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
+            setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const formData = new FormData(contactForm);
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
-
             submitBtn.disabled = true;
             submitBtn.innerText = 'Sending...';
 
             try {
-                const response = await fetch('https://alinor-casidar-portfolio.vercel.app/api/send', {
+                const response = await fetch('/api/send', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         fullname: formData.get('fullname'),
                         email: formData.get('email'),
                         message: formData.get('message')
                     })
                 });
-
                 const result = await response.json();
-
                 if (result.success) {
                     showToast('✨ ' + result.message + ' ✨', 'success');
                     contactForm.reset();
                 } else {
-                    showToast('❌ ' + result.message, 'error');
+                    showToast('❌ ' + (result.error || result.message || 'Failed to send'), 'error');
                 }
-
             } catch (error) {
                 console.error('Error:', error);
                 showToast('❌ Network error. Please check your connection.', 'error');
-
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = originalText;
             }
         });
 
-        // 9. PROFILE CLICK SECRET: 5 clicks to admin login
+        // ==================== PROFILE 5‑CLICK SECRET ====================
         const profileContainer = document.getElementById('profileImage');
-        let clickCount = 0;
-        let timeout;
-
+        let clickCount = 0, timeout;
         if (profileContainer) {
             profileContainer.addEventListener('click', () => {
                 clickCount++;
-                // Reset counter after 1 second of inactivity
                 clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    clickCount = 0;
-                }, 1000);
-
+                timeout = setTimeout(() => { clickCount = 0; }, 1000);
                 if (clickCount === 5) {
-                    window.location.href = 'admin_login.php';
-                    clickCount = 0; // reset after redirect
+                    window.location.href = 'dashboard.html';   // JWT-protected admin dashboard
+                    clickCount = 0;
                 }
             });
         }
