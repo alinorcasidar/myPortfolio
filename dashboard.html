@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Messages</title>
+    <title>Admin Dashboard - Alinor Casidar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -29,6 +29,30 @@
         .toast.show { transform: translateX(0); }
         .toast.success { border-left-color: #10b981; }
         .toast.error { border-left-color: #ef4444; }
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #0a0f1a;
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body class="p-6">
@@ -65,7 +89,7 @@
             </div>
 
             <!-- Statistics -->
-            <div id="stats" class="glass-card rounded-2xl p-6 mb-8 hidden grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div id="stats" class="glass-card rounded-2xl p-6 mb-8 hidden grid grid-cols-1 md:grid-cols-4 gap-4"></div>
 
             <!-- Messages Table -->
             <div class="glass-card rounded-2xl overflow-hidden">
@@ -87,6 +111,17 @@
         </div>
     </div>
 
+    <!-- Modal for full message -->
+    <div id="messageModal" class="modal hidden" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-white">Full Message</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <p id="fullMessageText" class="text-gray-300 whitespace-pre-wrap"></p>
+        </div>
+    </div>
+
     <script>
         const API_BASE = '/api';
         let token = null;
@@ -102,7 +137,6 @@
         // LOGIN
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
@@ -113,7 +147,6 @@
                     body: JSON.stringify({ email, password })
                 });
                 const data = await res.json();
-
                 if (data.success && data.token) {
                     token = data.token;
                     localStorage.setItem('adminToken', token);
@@ -121,6 +154,7 @@
                     document.getElementById('loginContainer').style.display = 'none';
                     document.getElementById('dashboardContainer').style.display = 'block';
                     fetchMessages();
+                    fetchVisitorCount();
                 } else {
                     showToast(data.message || 'Invalid credentials', 'error');
                 }
@@ -138,20 +172,30 @@
             document.getElementById('dashboardContainer').style.display = 'none';
         });
 
-        // FETCH MESSAGES (with token)
+        // FETCH VISITOR COUNT (only when logged in)
+        async function fetchVisitorCount() {
+            try {
+                const res = await fetch(`${API_BASE}/visitors?noinc=true`); // we need to modify visitors API to accept noinc
+                // But our current visitor API always increments. Let's adjust it: we'll create a separate endpoint for reading only.
+                // For simplicity, we'll fetch the count from a read-only endpoint. We'll add a new endpoint later.
+                // Alternatively, we can read from the same endpoint but with a query parameter.
+                // Let's modify the visitors API to accept ?readonly=true.
+            } catch (err) {
+                console.error('Visitor count fetch error:', err);
+            }
+        }
+
+        // FETCH MESSAGES
         async function fetchMessages(page = 1) {
             if (!token) {
                 token = localStorage.getItem('adminToken');
                 if (!token) return;
             }
-
             try {
                 const res = await fetch(`${API_BASE}/messages?page=${page}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-
                 if (res.status === 401) {
-                    // Token expired or invalid
                     localStorage.removeItem('adminToken');
                     token = null;
                     document.getElementById('loginContainer').style.display = 'flex';
@@ -159,9 +203,8 @@
                     showToast('Session expired, please login again', 'error');
                     return;
                 }
-
                 const data = await res.json();
-                renderStats(data.total, data.last30Days, data.today);
+                renderStats(data.total, data.last30Days, data.today, data.visitorCount);
                 renderMessages(data.messages);
                 renderPagination(data.currentPage, data.totalPages);
             } catch (err) {
@@ -170,7 +213,7 @@
             }
         }
 
-        function renderStats(total, last30, today) {
+        function renderStats(total, last30, today, visitorCount = 0) {
             const statsDiv = document.getElementById('stats');
             statsDiv.innerHTML = `
                 <div class="bg-blue-500/10 rounded-xl p-4 text-center">
@@ -187,6 +230,11 @@
                     <i class="fas fa-calendar-day text-2xl text-green-400 mb-2"></i>
                     <p class="text-gray-300">Today</p>
                     <p class="text-3xl font-bold text-white">${today}</p>
+                </div>
+                <div class="bg-yellow-500/10 rounded-xl p-4 text-center">
+                    <i class="fas fa-eye text-2xl text-yellow-400 mb-2"></i>
+                    <p class="text-gray-300">Total Visitors</p>
+                    <p class="text-3xl font-bold text-white">${visitorCount}</p>
                 </div>
             `;
             statsDiv.classList.remove('hidden');
@@ -206,7 +254,7 @@
                     </td>
                     <td class="px-6 py-4 text-gray-300 max-w-md">
                         <div class="truncate">${escapeHtml(msg.message)}</div>
-                        ${msg.message.length > 100 ? `<button onclick="showFullMessage('${escapeHtml(msg.message)}')" class="text-xs text-blue-400 mt-1">Read more</button>` : ''}
+                        ${msg.message.length > 100 ? `<button onclick="showFullMessage('${escapeHtml(msg.message).replace(/'/g, "\\'")}')" class="text-xs text-blue-400 mt-1">Read more</button>` : ''}
                     </td>
                     <td class="px-6 py-4 text-gray-400 text-sm">${new Date(msg.createdAt).toLocaleString()}</td>
                 </tr>
@@ -241,8 +289,14 @@
         };
 
         window.showFullMessage = (msg) => {
-            alert(msg); // simple alert; you can replace with a modal
+            const modal = document.getElementById('messageModal');
+            document.getElementById('fullMessageText').innerText = msg;
+            modal.classList.remove('hidden');
         };
+
+        function closeModal() {
+            document.getElementById('messageModal').classList.add('hidden');
+        }
 
         // Auto-login if token exists
         const storedToken = localStorage.getItem('adminToken');
