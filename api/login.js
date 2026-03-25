@@ -7,16 +7,36 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false });
   }
 
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  await client.connect();
-  const db = client.db("portfolio");
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
 
-  const admin = await db.collection("admins").findOne({ email });
+    await client.connect();
+    const db = client.db("portfolio");
 
-  if (!admin || admin.password !== password) {
-    return res.json({ success: false, message: "Invalid credentials" });
+    const admin = await db.collection("admins").findOne({ email: cleanEmail });
+
+    console.log("INPUT:", cleanEmail, cleanPassword);
+    console.log("DB:", admin);
+
+    if (!admin || admin.password !== cleanPassword) {
+      return res.json({
+        success: false,
+        message: "Invalid credentials"
+      });
+    }
+
+    return res.json({
+      success: true,
+      message: "Login successful"
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
-
-  res.json({ success: true });
 }
