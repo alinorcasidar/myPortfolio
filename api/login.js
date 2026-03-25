@@ -16,7 +16,8 @@ export default async function handler(req, res) {
     await client.connect();
     const db = client.db("portfolio");
 
-    const admin = await db.collection("admins").findOne({ email: cleanEmail });
+    // ✅ FIXED COLLECTION NAME
+    const admin = await db.collection("admin").findOne({ email: cleanEmail });
 
     console.log("INPUT:", cleanEmail, cleanPassword);
     console.log("DB:", admin);
