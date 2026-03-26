@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* all existing styles unchanged */
         @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -142,6 +143,8 @@
                 <div class="flex gap-4 flex-wrap">
                     <a href="#projects" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">View My Work <i class="fas fa-arrow-right ml-2"></i></a>
                     <a href="#contact" class="border border-gray-600 hover:border-blue-500 hover:bg-blue-500/10 px-8 py-4 rounded-xl font-semibold transition-all">Hire Me</a>
+                    <!-- NEW: Print Resume Button -->
+                    <a href="resume/Alinor Casidar - Resume.pdf" target="_blank" class="border border-gray-600 hover:border-green-500 hover:bg-green-500/10 px-8 py-4 rounded-xl font-semibold transition-all"><i class="fas fa-print mr-2"></i> Print Resume</a>
                 </div>
                 <div class="mt-8 flex items-center gap-2 text-sm text-gray-400">
                     <span class="relative flex h-3 w-3">
@@ -369,7 +372,7 @@ Combining hardware and software to develop projects involving IoT embedded syste
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project cards (unchanged, but ensure they have correct classes) -->
+                <!-- Project cards (unchanged) -->
                 <div class="project-item web show group glass-card rounded-2xl overflow-hidden shimmer hover:shadow-blue-500/20" onclick="openProjectModal('marketing')">
                     <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
                         <img src="images/market1.png" alt="Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -649,7 +652,7 @@ Combining hardware and software to develop projects involving IoT embedded syste
             });
         }
 
-        // 3. PROJECT MODAL DATA & LOGIC (unchanged but kept)
+        // 3. PROJECT MODAL DATA & LOGIC (unchanged)
         const projectData = {
             'marketing': {
                 title: 'Web-Based E-Commerce System for Refurbished iPhones and iPads with Real-Time Ordering',
@@ -898,7 +901,6 @@ Combining hardware and software to develop projects involving IoT embedded syste
         if (profileContainer) {
             profileContainer.addEventListener('click', () => {
                 clickCount++;
-                // Reset counter after 1 second of inactivity
                 clearTimeout(timeout);
                 timeout = setTimeout(() => {
                     clickCount = 0;
@@ -906,7 +908,7 @@ Combining hardware and software to develop projects involving IoT embedded syste
 
                 if (clickCount === 5) {
                     window.location.href = 'admin_login.html';
-                    clickCount = 0; // reset after redirect
+                    clickCount = 0;
                 }
             });
         }
