@@ -10,15 +10,29 @@
 
 <h1 class="text-3xl font-bold mb-6">📩 Messages Dashboard</h1>
 
+<!-- Visitor Counter Card -->
+<h2 class="text-xl mb-4">👁 Total Visitors: <span id="visits">0</span></h2>
+
+<script>
+async function loadVisits() {
+    const res = await fetch('/api/visits');
+    const data = await res.json();
+
+    document.getElementById('visits').innerText = data.count;
+}
+
+loadVisits();
+</script>
+
 <div class="overflow-x-auto">
 <table class="w-full border border-white/10 rounded-xl overflow-hidden">
     <thead class="bg-white/10">
-        <tr>
+         <tr>
             <th class="p-3 text-left">Name</th>
             <th class="p-3 text-left">Email</th>
             <th class="p-3 text-left">Message</th>
             <th class="p-3 text-left">Date</th>
-        </tr>
+         </tr>
     </thead>
     <tbody id="messageTable"></tbody>
 </table>
@@ -55,8 +69,27 @@ async function loadMessages() {
     }
 }
 
+// New function to fetch and display the visitor count
+async function loadVisitCount() {
+    try {
+        const res = await fetch('/api/visits');
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('visitCount').innerText = data.count.toLocaleString();
+        }
+    } catch (err) {
+        console.error('Failed to load visit count:', err);
+        document.getElementById('visitCount').innerText = 'Error';
+    }
+}
+
+// Load both messages and visit count when the page loads
 loadMessages();
+loadVisitCount();
 </script>
+
+<!-- Optional: FontAwesome for the icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </body>
 </html>

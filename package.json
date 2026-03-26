@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
+    "@vercel/kv": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.0.0"
