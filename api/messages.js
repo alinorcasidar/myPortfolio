@@ -1,22 +1,36 @@
 import { MongoClient } from "mongodb";
 
-const client = new MongoClient(process.env.MONGODB_URI);
+const uri = process.env.MONGODB_URI;
+let client;
+let clientPromise;
+
+if (!global._mongoClientPromise) {
+    client = new MongoClient(uri);
+    global._mongoClientPromise = client.connect();
+}
+clientPromise = global._mongoClientPromise;
 
 export default async function handler(req, res) {
-  await client.connect();
-  const db = client.db("portfolio");
+    if (req.method !== 'GET') {
+        return res.status(405).json({ success: false });
+    }
 
-  const messages = await db.collection("messages")
-    .find({})
-    .sort({ createdAt: -1 })
-    .toArray();
+    try {
+        const client = await clientPromise;
+        const db = client.db("portfolio");
 
-  res.json({
-    messages,
-    total: messages.length,
-    last30Days: messages.length,
-    today: messages.length,
-    currentPage: 1,
-    totalPages: 1
-  });
+        const messages = await db
+            .collection("messages")
+            .find({})
+            .sort({ createdAt: -1 })
+            .toArray();
+
+        return res.json({ success: true, messages });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
 }
