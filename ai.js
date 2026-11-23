@@ -529,7 +529,8 @@ Need a language that isn't listed? Ask him directly at ${EMAIL}.`,
       const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 25000);
       const res = await fetch((window.BASE || '') + 'api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history.slice(-10) }), signal: ctl.signal });
       clearTimeout(to);
-      if (!res.ok) { if (res.status === 404 || res.status === 501) liveOK = false; return null; }
+      // 4xx (no /api/chat function, wrong method…) or 501 (no API key) → stop trying for this visit
+      if (!res.ok) { if (res.status < 500 || res.status === 501) liveOK = false; return null; }
       const out = await res.json();
       if (out && typeof out.reply === 'string' && out.reply.trim()) { liveOK = true; return out.reply.trim(); }
       return null;
